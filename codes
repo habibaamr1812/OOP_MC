@@ -1,0 +1,107 @@
+from abc import ABC, abstractmethod
+
+
+# Question 1 examples
+
+class Animal(ABC):
+    @abstractmethod
+    def make_sound(self):
+        pass
+
+    def sleep(self):
+        print("Animal is sleeping")
+
+
+class Dog(Animal):
+    def make_sound(self):
+        print("Woof")
+
+
+class DuckDog:
+    def speak(self):
+        print("Woof")
+
+
+class Robot:
+    def speak(self):
+        print("Beep")
+
+
+def make_sound(obj):
+    obj.speak()
+
+
+# Question 2: Garage Management System
+
+class Garage:
+    def __init__(self, capacity):
+        self.__capacity = capacity
+        self.__available_spots = capacity
+        self.__cars = []
+
+    def add_car(self, car):
+        if self.__available_spots > 0:
+            self.__cars.append(car)
+            self.__available_spots -= 1
+            print(f"{car} added to the garage.")
+        else:
+            print("Garage is full.")
+
+    def remove_car(self, car):
+        if car in self.__cars:
+            self.__cars.remove(car)
+            self.__available_spots += 1
+            print(f"{car} removed from the garage.")
+        else:
+            print("Car is not in the garage.")
+
+    def park_car(self, car):
+        self.add_car(car)
+
+    def display_available_spots(self):
+        print(f"Available spots: {self.__available_spots}")
+
+
+# Question 3: Car and Battery
+
+class Car:
+    def __init__(self, brand):
+        self.brand = brand
+
+    def drive(self):
+        print("Driving the car")
+
+    def show_info(self):
+        print(f"Car brand: {self.brand}")
+
+
+class Battery:
+    def charge(self):
+        print("Battery is charging")
+
+    def check_range(self, current_charge):
+        # Assumption: 1% battery charge = 5 km.
+        range_km = current_charge * 5
+        print(f"Estimated remaining range: {range_km} km")
+
+
+class ElectricCar(Car, Battery):
+    def __init__(self, brand):
+        Car.__init__(self, brand)
+
+
+# Testing
+if __name__ == "__main__":
+    garage = Garage(3)
+    garage.display_available_spots()
+    garage.park_car("BMW")
+    garage.park_car("Tesla")
+    garage.display_available_spots()
+    garage.remove_car("BMW")
+    garage.display_available_spots()
+
+    car = ElectricCar("Tesla")
+    car.show_info()
+    car.drive()
+    car.charge()
+    car.check_range(80)
